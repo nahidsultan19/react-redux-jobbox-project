@@ -1,19 +1,18 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login.svg";
 import { googleLogin, loginUser } from "../features/auth/authSlice";
-import auth from "../firebase/firebase.config";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, email } = useSelector((state) => state.auth);
-  const [signInWithGoogle] = useSignInWithGoogle(auth)
+  const { isLoading, email, isError, error } = useSelector((state) => state.auth);
+
 
   const onSubmit = (data) => {
     console.log(data);
@@ -25,6 +24,13 @@ const Login = () => {
       navigate('/')
     }
   }, [navigate, isLoading, email])
+
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error)
+    }
+  }, [error, isError])
 
   const handleGoogleLogin = () => {
     dispatch(googleLogin())
