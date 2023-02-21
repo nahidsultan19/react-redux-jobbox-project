@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login.svg";
-import { loginUser } from "../features/auth/authSlice";
+import { googleLogin, loginUser } from "../features/auth/authSlice";
+import auth from "../firebase/firebase.config";
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, email } = useSelector((state) => state.auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth)
 
   const onSubmit = (data) => {
     console.log(data);
@@ -22,6 +25,10 @@ const Login = () => {
       navigate('/')
     }
   }, [navigate, isLoading, email])
+
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin())
+  }
 
   return (
     <div className='flex h-screen items-center'>
@@ -68,6 +75,13 @@ const Login = () => {
                   </span>
                 </p>
               </div>
+              <button
+                onClick={handleGoogleLogin}
+                type='submit'
+                className='font-bold text-white py-3 rounded-full bg-primary w-full'
+              >
+                Login with Google
+              </button>
             </div>
           </form>
         </div>
