@@ -8,7 +8,7 @@ import { googleLogin, loginUser } from "../features/auth/authSlice";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading, email, isError, error } = useSelector((state) => state.auth);
