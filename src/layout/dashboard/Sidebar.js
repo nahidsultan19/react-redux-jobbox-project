@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
+
 const Sidebar = () => {
   const { user: { role } } = useSelector((state) => state.auth);
   const employeeRoutes = [
