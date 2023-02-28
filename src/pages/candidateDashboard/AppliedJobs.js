@@ -5,9 +5,7 @@ import Loading from "../../components/reusable/Loading";
 import { useGetAppliedJobsQuery } from "../../features/job/jobApi";
 
 const AppliedJobs = () => {
-  const {
-    user: { email },
-  } = useSelector((state) => state.auth);
+  const { user: { email }, } = useSelector((state) => state.auth);
   const { data, isLoading } = useGetAppliedJobsQuery(email);
 
   if (isLoading) {
