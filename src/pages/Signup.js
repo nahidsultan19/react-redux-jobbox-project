@@ -41,7 +41,7 @@ const Signup = () => {
   const onSubmit = (data) => {
     console.log(data);
     dispatch(createUser({ email: data.email, password: data.password }))
-
+    navigate('/');
   };
 
   const handleGoogleLogin = () => {

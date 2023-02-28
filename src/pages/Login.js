@@ -8,6 +8,7 @@ import { googleLogin, loginUser } from "../features/auth/authSlice";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
+  const { user } = useSelector((state) => state.auth);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,16 +21,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (!isLoading && email) {
+    if (!isLoading && email && user) {
       navigate('/')
     }
-  }, [navigate, isLoading, email])
+
+  }, [navigate, isLoading, email, user])
 
 
   useEffect(() => {
     if (isError) {
       toast.error(error)
     }
+
   }, [error, isError])
 
   const handleGoogleLogin = () => {
