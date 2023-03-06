@@ -1,10 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useRemoveJobMutation } from '../../features/job/jobApi';
+
 
 const JobCard = ({ jobData }) => {
   const navigate = useNavigate();
-  const { _id, position, companyName, location, employmentType } =
-    jobData || {};
+  const { _id, position, companyName, location, employmentType } = jobData || {};
+  const { user: { role } } = useSelector((state) => state.auth);
+  const [removeJob] = useRemoveJobMutation();
 
   return (
     <div
@@ -25,10 +29,16 @@ const JobCard = ({ jobData }) => {
       </div>
       <div className='flex justify-between items-center mt-5'>
         <p>{employmentType}</p>
-        <button className='btn' onClick={() => navigate(`/job-details/${_id}`)}>
-          Details
-        </button>
+        <div className="">
+          <button className='btn mr-2' onClick={() => navigate(`/job-details/${_id}`)}>
+            Details
+          </button>
+          {role === 'employer' && <button className='btn' onClick={() => removeJob(_id)}>
+            Delete
+          </button>}
+        </div>
       </div>
+
     </div>
   );
 };

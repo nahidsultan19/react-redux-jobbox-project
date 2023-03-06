@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import meeting from "../assets/meeting.jpg";
 import { BsArrowRightShort, BsArrowReturnRight } from "react-icons/bs";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
+
 const JobDetails = () => {
   const [reply, setReply] = useState('');
   const { user } = useSelector((state) => state.auth);
@@ -15,25 +16,15 @@ const JobDetails = () => {
   const { id } = useParams();
   const { data } = useJobByIdQuery(id, { pollingInterval: 1000 });
 
-  const {
-    companyName,
-    position,
-    location,
-    experience,
-    workLevel,
-    employmentType,
-    salaryRange,
-    skills,
-    requirements,
-    responsibilities,
-    overview,
-    queries,
-    _id,
-  } = data?.data || {};
+  const { companyName, position, location, experience, workLevel, employmentType, salaryRange, skills, requirements, responsibilities, overview, queries, _id, } = data?.data || {};
   const navigate = useNavigate();
   const [apply] = useApplyMutation();
   const [sendQuestion] = useQuestionMutation();
   const [sendReply] = useReplyMutation()
+
+
+
+
 
   const handleApply = () => {
     if (user.role === "employer") {
@@ -51,7 +42,9 @@ const JobDetails = () => {
       jobId: _id,
     };
     apply(data);
-  }
+  };
+
+
 
   const handleQuestion = (data) => {
     const queData = { ...data, userId: user._id, email: user.email, jobId: _id, };
