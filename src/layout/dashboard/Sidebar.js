@@ -11,8 +11,8 @@ const Sidebar = () => {
       path: "add-job"
     },
     {
-      name: "Applied job",
-      path: 'applied-job'
+      name: "candidate-applied",
+      path: "applied-job"
     }
   ]
   const candidateRoutes = [

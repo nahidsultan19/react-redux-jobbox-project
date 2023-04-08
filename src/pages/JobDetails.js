@@ -16,14 +16,19 @@ const JobDetails = () => {
   const { id } = useParams();
   const { data } = useJobByIdQuery(id, { pollingInterval: 1000 });
 
-  const { companyName, position, location, experience, workLevel, employmentType, salaryRange, skills, requirements, responsibilities, overview, queries, _id, } = data?.data || {};
+  const { companyName, position, location, experience, workLevel, employmentType, salaryRange, skills, requirements, responsibilities, overview, queries, _id, applicants } = data?.data || {};
   const navigate = useNavigate();
-  const [apply] = useApplyMutation();
+  const [apply, { isSuccess }] = useApplyMutation();
   const [sendQuestion] = useQuestionMutation();
   const [sendReply] = useReplyMutation()
 
 
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Successfully Applied');
+    }
+  }, [isSuccess])
 
 
   const handleApply = () => {
@@ -35,6 +40,7 @@ const JobDetails = () => {
     if (user.role === '') {
       navigate('/register')
     }
+
 
     const data = {
       userId: user._id,
@@ -68,7 +74,7 @@ const JobDetails = () => {
         <div className='space-y-5'>
           <div className='flex justify-between items-center mt-5'>
             <h1 className='text-xl font-semibold text-primary'>{position}</h1>
-            <button onClick={handleApply} className='btn'>Apply</button>
+            {user.role === 'candidate' ? (<button onClick={handleApply} className='btn'>Apply</button>) : ""}
           </div>
           <div>
             <h1 className='text-primary text-lg font-medium mb-3'>Overview</h1>
